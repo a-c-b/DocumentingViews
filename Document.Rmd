@@ -1,0 +1,103 @@
+---
+title: "Documenting Metrics Code in Oracle 12 databases"
+author: "Andrea Brice"
+date: "Tuesday, May 05, 2015"
+output: html_document
+---
+
+
+Because of the quantity of metrics created across a variety of nodes,
+trying to manage the change in code even using a "GitHub" like system (The Metrics Inventory, owned by AT&T Labs, developed by the CPME organization within AT&T) became problematic.  The problem was how to keep code up to date without human intervention as code is changed during development multiple times a day.
+
+Even though code is changed multiple times a day, the last instance of change is what needed to be captured.  This last instance of the View code is available in System tables found in Oracle, SQL Server, and Teradata.  The system table structures break up the object 
+
+By leveraging the use of System Tables in both Oracle, and SQL Server databases, I was able
+to semi-automate this process.  
+
+The steps
+
+
+SYS.ALL_DEPENDENCIES
+SYS.ALL_OBJECTS 
+SYS.VIEW$
+
+
+
+
+create a table
+
+create table schema.VIEW_LIST
+(
+DUMPDATE    DATE,
+OBJECT_ID    NUMBER,
+OWNER    VARCHAR2(10),
+OBJECT_NAME    VARCHAR2(50),
+OBJECT_TYPE    VARCHAR2(50),
+CREATED    DATE,
+STATUS    VARCHAR2(25),
+LAST_DDL_TIME    DATE,
+COLUMN_CT    NUMBER,
+TEXTLENGTH    NUMBER,
+TEXT    CLOB
+
+) tablespace tablespace_name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO VIEW_LIST
+
+     select
+        trunc(sysdate) as dumpdate,
+        a.object_id,
+        owner,
+        object_name,
+        object_type,
+        created,
+        status,
+        last_ddl_time,
+        cols as column_ct,
+        TEXTLENGTH, to_lob(TEXT) as text
+    
+    from SYS.ALL_OBJECTS a, SYS.VIEW$ b
+    
+    where a.object_id = b.obj#
+        and owner like '%3651'
+        and object_name not in ('Insert_Name1_Here', 'Name2', 'Name3')
+        
+with
+latestdate as (select max(dumpdate) as latest_dumpdate from VIEW_LIST)
+       
+SELECT 
+    dumpdate
+    object_id,
+    owner||'.'||object_name as unique_id,
+    owner,
+        object_name,
+        object_type,
+        created,
+        status,
+        last_ddl_time,
+        column_ct,
+        TEXTLENGTH, 
+        text
+    
+
+FROM VIEW_LIST, latestdate
+
+WHERE DUMPDATE = latest_dumpdate;
+
