@@ -7,12 +7,13 @@ output: html_document
 
 
 Because of the quantity of metrics created across a variety of nodes,
-trying to manage the change in code even using a "GitHub" like system (The Metrics Inventory, owned by AT&T Labs, developed by the CPME organization within AT&T) became problematic.  The problem was how to keep code up to date without human intervention as code is changed during development multiple times a day.
+trying to manage the change in code even using a "GitHub" like system became problematic.  The problem of keeping the code up to date without human intervention becomes more imperative as code can be changed multiple times during development, and manual updating is inherently structured for failure because of time constraints, "forgetfulness," or even just losing track of where code might be residing on a person's machine.
 
-Even though code is changed multiple times a day, the last instance of change is what needed to be captured.  This last instance of the View code is available in System tables found in Oracle, SQL Server, and Teradata.  The system table structures break up the object 
+The standard of writing code in Oracle views was the easiest way of tracking what code is production for metrics which needed to be accessed by various internal workgroups for reporting.  View code could be copied, queried, between production & non-production schema by users with the proper authority.  Non-production views could be written under a non-production owner and then migrated into the production owner's schema as part of a conscious integration.
 
-By leveraging the use of System Tables in both Oracle, and SQL Server databases, I was able
-to semi-automate this process.  
+By leveraging the use of System Tables in both Oracle, and SQL Server databases, I was able to semi-automate the process of updating the metrics database with the most recent code.  Even though code is changed multiple times a day, the last instance of change is what needed to be captured.  This last instance of the View code is available in System tables found in Oracle, SQL Server, and Teradata.  
+
+The system table structures break up the object from the object name and the text.  The text is stored in an Oracle system table which hadn't been 
 
 The steps
 
