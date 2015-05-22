@@ -14,13 +14,13 @@ By leveraging the use of System Tables in both Oracle, and SQL Server databases,
 The system table structures break up the object from the object name and the text.  The text is stored in an Oracle system table which hadn't been 
 
 The steps
--- delete the old data in database1
--- update the table in database1 with new ddl dates & sql
--- execute stored procedure dbo.SP_DR_VIEW_DEFINITIONS
--- delete from dbo.DR_SQL_LIBRARY_UPLOAD_RESULT
--- import of SQL LIBRARY RESULT data into table dbo.DR_SQL_LIBRARY_UPLOAD_RESULT
--- execute stored procedure dbo.SP_DR_SQL_LIBRARY_FINAL
--- select records of interest from table dbo.DR_SQL_LIBRARY_FINAL and insert into table dbo.DR_SQL_BULK_UPLOAD_TEMPLATE
+- delete the old data in database1
+- update the table in database1 with new ddl dates & sql
+- execute stored procedure dbo.SP_DR_VIEW_DEFINITIONS
+- delete from dbo.DR_SQL_LIBRARY_UPLOAD_RESULT
+- import of SQL LIBRARY RESULT data into table dbo.DR_SQL_LIBRARY_UPLOAD_RESULT
+- execute stored procedure dbo.SP_DR_SQL_LIBRARY_FINAL
+- select records of interest from table dbo.DR_SQL_LIBRARY_FINAL and insert into table dbo.DR_SQL_BULK_UPLOAD_TEMPLATE
           for output
 
 
